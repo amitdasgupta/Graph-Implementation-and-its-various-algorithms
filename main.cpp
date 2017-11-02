@@ -50,12 +50,12 @@ void showGraph()
 }
 void visitNode(int* &arr,int i)
 {
-    cout<<i<<" ";
+
     arr[i]=1;
     for(int j=0;j<this->v;j++)
         if(!arr[j]&&this->arr_[i][j])
       visitNode(arr,j);
-
+     cout<<i<<" ";
 
 }
 void dfs()
@@ -206,5 +206,7 @@ int main()
     cout<<"\n";
     //g.bfs();
     g.topologicalSort();
+    cout<<"\n";
+    g.dfs();
     return 0;
 }
