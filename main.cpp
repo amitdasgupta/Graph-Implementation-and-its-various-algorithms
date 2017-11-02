@@ -1,5 +1,6 @@
 #include <iostream>
 #include<deque>
+#include<stack>
 using namespace std;
 /*******************************graph defination using matrix*////////////////////////////////////////////////////////////////////////
 class Graph{
@@ -24,7 +25,7 @@ void insertIntoGraph()
     {
         cin>>x>>y;
         arr_[x][y]=1;
-        arr_[y][x]=1;
+        //arr_[y][x]=1;
     }
 }
 ~Graph()
@@ -89,9 +90,36 @@ void bfs()
                 }
         }
     }
-
-
-
+}
+void helperTopoSort(int node,stack<int> &s,int* &arr)
+{
+    int temp;
+    arr[node]=1;
+    for(int i=0;i<this->v;i++)
+    {
+        if(!arr[i]&&this->arr_[node][i])
+        {
+            helperTopoSort(i,s,arr);
+        }
+    }
+    s.push(node);
+}
+void topologicalSort()
+{
+    int temp;
+    stack<int> s;
+    int* arr=new int[this->v]();
+    for(int i=0;i<this->v;i++)
+    {
+        if(!arr[i])
+            helperTopoSort(i,s,arr);
+    }
+    while(!s.empty())
+    {
+        temp=s.top();
+        s.pop();
+        cout<<temp<<" ";
+    }
 }
 
 };
@@ -176,6 +204,7 @@ int main()
     g.showGraph();
    // g.dfs();
     cout<<"\n";
-    g.bfs();
+    //g.bfs();
+    g.topologicalSort();
     return 0;
 }
