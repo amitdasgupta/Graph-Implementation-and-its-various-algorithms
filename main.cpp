@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-/*******************************graph defination using matrix
+/*******************************graph defination using matrix*////////////////////////////////////////////////////////////////////////
 class Graph{
 int v;
 int e;
@@ -46,7 +46,32 @@ void showGraph()
 
     }
 }
-};*////////////////////////////////////////////////////////////////////////
+void visitNode(int* &arr,int i)
+{
+    //cout<<i<<" ";
+    arr[i]=1;
+    for(int j=0;j<this->v;j++)
+        if(!arr[j]&&this->arr_[i][j])
+       cout<<i<<"->"<<j<<" ";
+
+
+}
+void dfs()
+{
+    //cout<<"s";
+    int *arr=new int[this->v]();
+   // cout<<arr[0]<<" "<<arr[1];
+    for(int i=0;i<this->v;i++)
+    {
+        if(!arr[i])
+            visitNode(arr,i);
+
+    }
+}
+
+
+};
+/*************************representation of graph using adjacency list
 class Node{
 public:
 int vertex;
@@ -113,6 +138,10 @@ void showGraph()
     }
 }
 };
+*//////////////////////
+/****************code for dfs*//////////////////////
+
+
 int main()
 {
     int v;
@@ -120,7 +149,7 @@ int main()
     cin>>v;
     Graph g(v);
     g.insertIntoGraph();
-  //  cout<<"c";
     g.showGraph();
+    g.dfs();
     return 0;
 }
