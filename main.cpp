@@ -1,4 +1,5 @@
 #include <iostream>
+#include<deque>
 using namespace std;
 /*******************************graph defination using matrix*////////////////////////////////////////////////////////////////////////
 class Graph{
@@ -11,7 +12,7 @@ Graph(int v)
     this->v=v;
     arr_=new int*[v];
     for(int i=0;i<v;i++)
-        arr_[i]=new int[v];
+        arr_[i]=new int[v]();
     this->e=0;
 }
 void insertIntoGraph()
@@ -48,19 +49,17 @@ void showGraph()
 }
 void visitNode(int* &arr,int i)
 {
-    //cout<<i<<" ";
+    cout<<i<<" ";
     arr[i]=1;
     for(int j=0;j<this->v;j++)
         if(!arr[j]&&this->arr_[i][j])
-       cout<<i<<"->"<<j<<" ";
+      visitNode(arr,j);
 
 
 }
 void dfs()
 {
-    //cout<<"s";
     int *arr=new int[this->v]();
-   // cout<<arr[0]<<" "<<arr[1];
     for(int i=0;i<this->v;i++)
     {
         if(!arr[i])
@@ -69,6 +68,31 @@ void dfs()
     }
 }
 
+void bfs()
+{
+    int *arr=new int[this->v]();
+    deque<int> deque_;
+    int temp;
+    deque_.push_back(0);
+
+    while(!deque_.empty())
+    {
+     temp=deque_.front();
+     deque_.pop_front();
+     cout<<temp<<" ";
+     arr[temp]=1;
+         for(int i=0;i<this->v;i++)
+        {
+            if(!arr[i]&&this->arr_[temp][i])
+                {
+                    deque_.push_back(i);
+                }
+        }
+    }
+
+
+
+}
 
 };
 /*************************representation of graph using adjacency list
@@ -150,6 +174,8 @@ int main()
     Graph g(v);
     g.insertIntoGraph();
     g.showGraph();
-    g.dfs();
+   // g.dfs();
+    cout<<"\n";
+    g.bfs();
     return 0;
 }
