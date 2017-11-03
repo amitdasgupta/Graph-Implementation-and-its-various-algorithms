@@ -2,7 +2,16 @@
 #include<deque>
 #include<stack>
 #include<queue>
+#define pp pair<int,int>
 using namespace std;
+/**************class for defining priority queue*///////////////
+class priority{
+    public:
+bool operator()(pp &a,pp &b)
+{
+    return a.first>b.first;
+}
+};
 /*******************************graph defination using matrix*////////////////////////////////////////////////////////////////////////
 class Graph{
 int v;
@@ -21,11 +30,11 @@ void insertIntoGraph()
 {
     cout<<"enter the number of edges:";
     cin>>e;
-    int x,y;
+    int x,y,weight;
     for(int i=0;i<e;i++)
     {
-        cin>>x>>y;
-        arr_[x][y]=1;
+        cin>>x>>y>>weight;
+        arr_[x][y]=weight;
         //arr_[y][x]=1;
     }
 }
@@ -41,7 +50,7 @@ void showGraph()
     for(i=0;i<v;i++)
         for(j=0;j<v;j++)
     {
-        if(arr_[i][j]==1)
+        if(arr_[i][j])
             {
                 cout<<i<<"->"<<j<<endl;
             }
@@ -166,7 +175,50 @@ void shortestPath()
     for(int i=0;i<this->v;i++)
         cout<<previous[i]<< " ";
 }
+/*****************************code for shortest path in weighted graph*////////////////////////
+void dijskastraWeightedShortestPath()
+{
+    int* distance=new int[this->v];
+    cout<<"\nenter the vertex from which you want to find the shortest path";
+    int ver,temp,curr_distance;
+    cin>>ver;
+    int* previous=new int[this->v]();
+    for(int i=0;i<this->v;i++)
+        distance[i]=-1;
+    distance[ver]=0;
+    priority_queue<pp,vector<pp>,priority> p_queue;
+    p_queue.push(pp(0,ver));
+    while(!p_queue.empty())
+    {
+     temp=p_queue.top().second;
+        p_queue.pop();
+        for(int i=0;i<this->v;i++)
+        {
+            curr_distance=distance[temp]+this->arr_[temp][i];
+           if(distance[i]==-1&&this->arr_[temp][i])
+            {
 
+                distance[i]=curr_distance;
+                previous[i]=temp;
+                p_queue.push(pp(distance[i],i));
+            }
+            else
+                if(distance[i]>curr_distance&&this->arr_[temp][i])
+            {
+             distance[i]=curr_distance;
+                previous[i]=temp;
+               p_queue.push(pp(distance[i],i));
+
+            }
+        }
+    }
+    cout<<"\n printing distance array";
+    for(int i=0;i<this->v;i++)
+        cout<<distance[i]<< " ";
+    cout<<"\n printing previous array";
+    for(int i=0;i<this->v;i++)
+        cout<<previous[i]<< " ";
+}
 };
 /*************************representation of graph using adjacency list
 class Node{
@@ -251,7 +303,7 @@ int main()
    /**** g.topologicalSort();
     cout<<"\n";
     g.dfs();*/
-    g.shortestPath();
-
+   // g.shortestPath();
+     g.dijskastraWeightedShortestPath();
     return 0;
 }
