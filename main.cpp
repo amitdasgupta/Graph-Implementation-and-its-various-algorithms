@@ -1,6 +1,7 @@
 #include <iostream>
 #include<deque>
 #include<stack>
+#include<queue>
 using namespace std;
 /*******************************graph defination using matrix*////////////////////////////////////////////////////////////////////////
 class Graph{
@@ -38,16 +39,16 @@ void showGraph()
 {
     int i=0,j=0;
     for(i=0;i<v;i++)
-        for(j=i;j<v;j++)
+        for(j=0;j<v;j++)
     {
         if(arr_[i][j]==1)
             {
                 cout<<i<<"->"<<j<<endl;
-                cout<<j<<"->"<<i<<endl;
             }
 
     }
 }
+/**************************dfs*///////////////////////
 void visitNode(int* &arr,int i)
 {
 
@@ -68,7 +69,7 @@ void dfs()
 
     }
 }
-
+/**********************bfs*//////////////////////////
 void bfs()
 {
     int *arr=new int[this->v]();
@@ -91,9 +92,10 @@ void bfs()
         }
     }
 }
+/*******************topological sort*/////////////////
 void helperTopoSort(int node,stack<int> &s,int* &arr)
 {
-    int temp;
+
     arr[node]=1;
     for(int i=0;i<this->v;i++)
     {
@@ -120,6 +122,49 @@ void topologicalSort()
         s.pop();
         cout<<temp<<" ";
     }
+}
+/**************************shortest path algorithms*//////////////////////////
+void shortestPath()
+{
+    int* distance=new int[this->v];
+    cout<<"\nenter the vertex from which you want to find the shortest path";
+    int ver,temp,curr_distance;
+    cin>>ver;
+    int* previous=new int[this->v]();
+    for(int i=0;i<this->v;i++)
+        distance[i]=-1;
+    distance[ver]=0;
+    deque<int> deque_;
+    deque_.push_back(ver);
+    while(!deque_.empty())
+    {
+     temp=deque_.front();
+        deque_.pop_front();
+        for(int i=0;i<this->v;i++)
+        {
+            //curr_distance=distance[temp]+1;
+           if(distance[i]==-1&&this->arr_[temp][i])
+            {
+
+                distance[i]=distance[temp]+1;
+                previous[i]=temp;
+                deque_.push_back(i);
+            }
+            /*else
+                if(distance[i]>curr_distance)
+            {
+             distance[i]==curr_distance;
+                previous[i]=temp;
+                deque_.push_back(i);
+            }*/
+        }
+    }
+    cout<<"\n printing distance array";
+    for(int i=0;i<this->v;i++)
+        cout<<distance[i]<< " ";
+    cout<<"\n printing previous array";
+    for(int i=0;i<this->v;i++)
+        cout<<previous[i]<< " ";
 }
 
 };
@@ -202,11 +247,11 @@ int main()
     Graph g(v);
     g.insertIntoGraph();
     g.showGraph();
-   // g.dfs();
     cout<<"\n";
-    //g.bfs();
-    g.topologicalSort();
+   /**** g.topologicalSort();
     cout<<"\n";
-    g.dfs();
+    g.dfs();*/
+    g.shortestPath();
+
     return 0;
 }
